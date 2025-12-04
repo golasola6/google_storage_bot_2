@@ -40,13 +40,14 @@ async def channel_post(client: Client, message: Message):
         await reply_text.edit_text("Something went Wrong..!")
         return
     converted_id = post_message.id * abs(client.db_channel.id)
-    print(f"converted_id : {converted_id}")
+    print(f"post id : {post_message.id}")
     string = f"get-{converted_id}"
     base64_string = await encode(string)
     link = f"https://t.me/{client.username}?start={base64_string}"
     lazydeveloperr = await get_shortlink(id, link)
     print(link)
     print(lazydeveloperr)
+
     reply_markup = InlineKeyboardMarkup([
         # [InlineKeyboardButton("🏮 Share Shortlink 🔥", url=f'https://telegram.me/share/url?url={lazydeveloperr}')],
         [InlineKeyboardButton("🔁 Share URL", url=f'https://telegram.me/share/url?url={link}')],
