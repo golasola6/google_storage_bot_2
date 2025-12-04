@@ -16,8 +16,6 @@ neha_delete_time = FILE_AUTO_DELETE
 neha = neha_delete_time
 file_auto_delete = humanize.naturaldelta(neha)
 
-
-
 @Bot.on_message(filters.command('start') & filters.private)
 async def start_command(client: Client, message: Message):
     user = message.from_user
@@ -26,11 +24,9 @@ async def start_command(client: Client, message: Message):
     id = message.from_user.id
     if not await db.is_user_exist(id):
         await db.add_user(id)
-
     # if (FORCE_SUB_CHANNEL or FORCE_SUB_CHANNEL2 or FORCE_SUB_CHANNEL3) and not await is_subscribed(client, message):
     #     # User is not subscribed to any of the required channels, trigger force_sub logic
     #     return await lazy_force_sub(client, message)
-        
     text = message.text
     if len(text) > 7:
         try:
@@ -59,6 +55,7 @@ async def start_command(client: Client, message: Message):
                 return
 
         temp_msg = await message.reply("Wait A Sec..")
+        print(f"ids -=> {ids}")
         try:
             messages = await get_messages(client, ids)
         except Exception as e:

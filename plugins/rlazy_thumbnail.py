@@ -13,7 +13,6 @@ logging.basicConfig(level=logging.DEBUG,
                     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
 logger = logging.getLogger(__name__)
 
-
 # the Strings used for this "thing"
 from pyrogram import Client
 
