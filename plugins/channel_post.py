@@ -43,11 +43,27 @@ async def channel_post(client: Client, message: Message):
     print(f"post id : {post_message.id}")
     string = f"get-{converted_id}"
     base64_string = await encode(string)
+    file_id = base64_string
     print(f"base64_string : {base64_string}")
     link = f"https://t.me/{client.username}?start={base64_string}"
     lazydeveloperr = await get_shortlink(id, link)
-    print(link)
-    print(lazydeveloperr)
+    
+    # print(link)
+    # print(lazydeveloperr)
+    
+    channel = await client.ask(
+        chat_id=message.chat.id,
+        text="Please send the channel ID to connect the file : "
+    )
+
+    # Validate integer
+    if not channel.text.lstrip("-").isdigit():
+        await message.reply("❌ Invalid Channel ID! Process stopped.")
+        return
+
+    channel_id = int(channel.text)
+    
+    await db.save_locked_file(file_id, channel_id)
 
     reply_markup = InlineKeyboardMarkup([
         # [InlineKeyboardButton("🏮 Share Shortlink 🔥", url=f'https://telegram.me/share/url?url={lazydeveloperr}')],

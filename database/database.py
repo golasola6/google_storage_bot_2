@@ -74,23 +74,22 @@ class Database:
         default = {
             'shortlink': URL_SHORTENR_WEBSITE,
             'shortlink_api': URL_SHORTNER_WEBSITE_API,
-
         }
         chat = await self.lazyshortner.find_one({'id':int(id)})
         if chat:
             return chat.get('settings', default)
         return default
 
-    async def save_locked_file(self, file_id, channel_id, post_msg_id):
+    async def save_locked_file(self, file_id, channel_id):
         data = {
             "file_id" : file_id,
             "channel_id" : channel_id,
-            "post_message_id" : post_msg_id
         }
         await self.locked_files.insert_one(data)
-    
+
     async def get_locked_files(self, file_id):
-        return await self.locked_files.find_one({"file_id" : file_id})
+        lazy_file = await self.locked_files.find_one({"file_id" : file_id})
+        return lazy_file.get("channel_id", None)
 
 db = Database(DB_URI, DB_NAME)
 

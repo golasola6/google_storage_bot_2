@@ -13,6 +13,8 @@ logger.setLevel(logging.INFO)
 
 class temp(object):
     SETTINGS = {}
+    FILE_ID = {}
+    ASSIGNED_CHANNEL = []
 
 async def save_group_settings(group_id, key, value):
     current = await get_settings(group_id)
