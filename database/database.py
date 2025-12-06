@@ -8,6 +8,7 @@ class Database:
         self.db = self._client[database_name]
         self.col = self.db.user
         self.lazyshortner = self.db.lazyshortner
+        self.locked_files = self.db.locked_files
 
     def new_user(self, id):
         return dict(
@@ -15,7 +16,7 @@ class Database:
             file_id=None,
             caption=None
         )
-
+    
     async def add_user(self, id):
         user = self.new_user(id)
         await self.col.insert_one(user)
@@ -53,6 +54,7 @@ class Database:
         print(forward)
         z = await self.col.update_one({'_id': int(id)}, {'$set': {'forward_id': forward}})
         print(z)
+
     async def get_forward(self, id):
         user = await self.col.find_one({'_id': int(id)})
         return user.get('forward_id', None)
@@ -65,7 +67,6 @@ class Database:
         user = await self.col.find_one({'_id': int(id)})
         return user.get('lazy_target_chat_id', None)
     
-
     async def update_settings(self, id, settings):
         await self.lazyshortner.update_one({'id': int(id)}, {'$set': {'settings': settings}})
     
@@ -80,6 +81,16 @@ class Database:
             return chat.get('settings', default)
         return default
 
+    async def save_locked_file(self, file_id, channel_id, post_msg_id):
+        data = {
+            "file_id" : file_id,
+            "channel_id" : channel_id,
+            "post_message_id" : post_msg_id
+        }
+        await self.locked_files.insert_one(data)
+    
+    async def get_locked_files(self, file_id):
+        return await self.locked_files.find_one({"file_id" : file_id})
 
 db = Database(DB_URI, DB_NAME)
 

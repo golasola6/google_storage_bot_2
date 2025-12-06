@@ -33,7 +33,7 @@ async def start_command(client: Client, message: Message):
             base64_string = text.split(" ", 1)[1]
         except IndexError:
             return
-
+        print(f"base64_string on start : {base64_string}")
         string = await decode(base64_string)
         argument = string.split("-")
         

@@ -43,6 +43,7 @@ async def channel_post(client: Client, message: Message):
     print(f"post id : {post_message.id}")
     string = f"get-{converted_id}"
     base64_string = await encode(string)
+    print(f"base64_string : {base64_string}")
     link = f"https://t.me/{client.username}?start={base64_string}"
     lazydeveloperr = await get_shortlink(id, link)
     print(link)
