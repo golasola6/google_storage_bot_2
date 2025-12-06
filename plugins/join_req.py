@@ -2,18 +2,13 @@ from pyrogram import Client, filters, enums
 from pyrogram.types import ChatJoinRequest
 from database.database import db
 from config import * 
-from datetime import datetime, timedelta
-import pytz
 import logging
 import asyncio
-from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
-from info import *
 #5 => verification_steps ! [Youtube@LazyDeveloperr]
 logger = logging.getLogger(__name__)
-import pytz  # Make sure to handle timezone correctly
 from utils import temp 
-from helper_func import subscribed, encode, decode, get_messages
-from pyrogram.errors import FloodWait,ChatAdminRequired, UserIsBlocked, InputUserDeactivated, PeerIdInvalid
+from helper_func import decode, get_messages
+from pyrogram.errors import FloodWait
 from start import delete_files
 
 @Client.on_chat_join_request(filters.chat(temp.ASSIGNED_CHANNEL))  # Fetch channels dynamically
